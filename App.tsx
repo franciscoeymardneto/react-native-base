@@ -18,9 +18,9 @@ export default function App() {
     return null;
   }
 
+  // https://negativeepsilon.com/en/posts/expo-react-redux/
   return (
       <Routes/>
-    
   );
 }
 
