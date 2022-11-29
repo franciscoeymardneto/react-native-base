@@ -1,9 +1,16 @@
 import { useFonts } from "expo-font";
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useCallback } from 'react';
-import { StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from "redux-persist/integration/react";
 import Routes from './src/navigation/routes';
+import { store } from "./src/store";
 import { FONTS } from "./utils/constants";
+
+if(__DEV__) {
+  import('./tools/reactotronConfig').then(() => console.log('Reactotron Configured'))
+}
 
 export default function App() {
   const [fontsLoaded] = useFonts(FONTS)
@@ -18,17 +25,11 @@ export default function App() {
     return null;
   }
 
-  // https://negativeepsilon.com/en/posts/expo-react-redux/
   return (
-      <Routes/>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistStore(store)}>
+        <Routes/>
+      </PersistGate>
+    </Provider>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
